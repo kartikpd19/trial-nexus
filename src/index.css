@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { @apply bg-white font-sans text-ink antialiased; }
+
+/* Deep navy with soft vignette and grain, shared by hero and footer */
+.navy-surface {
+  position: relative;
+  isolation: isolate;
+  background: radial-gradient(120% 90% at 50% 35%, #022247 0%, #021B3A 50%, #010E20 100%);
+}
+.navy-surface::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: .18;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.nice-scroll { scrollbar-width: thin; scrollbar-color: #021B3A transparent; }
+.nice-scroll::-webkit-scrollbar { width: 6px; }
+.nice-scroll::-webkit-scrollbar-thumb { background: #021B3A; border-radius: 6px; }
+
+/* Map count bubbles */
+.map-bubble {
+  display: grid; place-items: center; width: 40px; height: 40px; border-radius: 9999px;
+  background: #021B3A; color: #fff; font: 600 15px/1 Inter, system-ui, sans-serif;
+  border: 3px solid #fff; box-shadow: 0 0 0 2px rgba(2,27,58,.35), 0 6px 14px -4px rgba(2,27,58,.5);
+  transition: transform .15s;
+}
+.map-bubble:hover { transform: scale(1.08); }
+.map-bubble.is-selected { background: #fff; color: #021B3A; box-shadow: 0 0 0 3px #021B3A, 0 6px 14px -4px rgba(2,27,58,.5); transform: scale(1.12); }
+.leaflet-container { font-family: Inter, system-ui, sans-serif; background: #F2F3F5; }
+/* Full-color basemap, slightly softened so the navy bubbles stand out */
+.map-tiles-muted { filter: saturate(.85) brightness(1.03); }
+.map-bubble.is-cluster { width: 46px; height: 46px; font-size: 16px; }
+.leaflet-marker-icon:focus-visible { outline: none; }
+.leaflet-marker-icon:focus-visible .map-bubble { box-shadow: 0 0 0 3px #7cc4ff; }
+
+.focus-ring { @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-300 focus-visible:ring-offset-2 focus-visible:ring-offset-navy; }
+.focus-ring-light { @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy focus-visible:ring-offset-2; }
